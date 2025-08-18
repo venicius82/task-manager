@@ -6,4 +6,20 @@ async function fetchTasks() {
     .join("");
 }
 
+async function addTask() {
+  const taskInput = document.getElementById("taskInput").value;
+  try {
+    const connect = await fetch("http://localhost:3000/task", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: taskInput }),
+    });
+    if (!connect.ok) throw new Error("Erro ao adicionar a tarefa");
+
+    fetchTasks();
+  } catch (err) {
+    console.error("Houve um erro.");
+  }
+}
+
 fetchTasks();

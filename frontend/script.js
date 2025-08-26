@@ -9,7 +9,7 @@ async function fetchTasks() {
 async function addTask() {
   const taskInput = document.getElementById("taskInput").value;
   try {
-    const connect = await fetch("http://localhost:3000/task", {
+    const connect = await fetch("http://localhost:3000/tasks", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: taskInput }),

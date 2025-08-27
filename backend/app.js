@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const tasks = [];
+let taskId = 0;
 
 app.use(cors());
 app.use(express.json());
@@ -11,13 +12,20 @@ app.get("/tasks", (req, res) => {
 });
 
 app.post("/tasks", (req, res) => {
-  tasks.push(req.body);
+  const task = { id: taskId++, ...req.body };
+  tasks.push(task);
   res.sendStatus(201);
 });
 
 app.delete("/tasks/:id", (req, res) => {
-  tasks.splice(req.params.id, 1);
-  res.sendStatus(200);
+  const id = parseInt(req.params.id);
+  const taskIndex = tasks.findIndex((task) => task.id === id);
+  if (taskIndex !== -1) {
+    tasks.splice(taskIndex, 1);
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(404);
+  }
 });
 
 app.listen(3000, () => console.log("API rodando na porta 3000"));

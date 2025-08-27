@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const tasks = [];
+let taskId = 0;
 
 app.use(cors());
 app.use(express.json());
@@ -11,7 +12,8 @@ app.get("/tasks", (req, res) => {
 });
 
 app.post("/tasks", (req, res) => {
-  tasks.push(req.body);
+  const task = { id: taskId++, ...req.body };
+  tasks.push(task);
   res.sendStatus(201);
 });
 

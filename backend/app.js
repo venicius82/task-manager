@@ -18,8 +18,14 @@ app.post("/tasks", (req, res) => {
 });
 
 app.delete("/tasks/:id", (req, res) => {
-  tasks.splice(req.params.id, 1);
-  res.sendStatus(200);
+  const id = parseInt(req.params.id);
+  const taskIndex = tasks.findIndex((task) => task.id === id);
+  if (taskIndex !== -1) {
+    tasks.splice(taskIndex, 1);
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(404);
+  }
 });
 
 app.listen(3000, () => console.log("API rodando na porta 3000"));
